@@ -4,6 +4,19 @@
 
 <p *ngIf="!filmes"><em>Loading...</em></p>
 
+<!-- <form [formGroup]="filmForm" (ngSubmit)="submit()">
+  <div class="row">
+    <label formArrayName="filmes" class="col-md-3" *ngFor="let filme of form.controls.filmes.controls; let i = index">
+      <div class="card">
+        <div class="card-body form-check">
+          <input class="form-check-input" type="checkbox" [formControlName]="i">
+          <p class="card-text"><strong>{{ filme[i].titulo }}<br><small>{{ filme[i].ano }}</small></strong></p>
+        </div>
+      </div>
+    </label>
+  </div>
+</form> -->
+
 <form class="container">
   <div class="row">
     <label class="col-md-3" *ngFor="let filme of filmes">

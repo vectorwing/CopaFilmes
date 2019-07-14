@@ -1,0 +1,18 @@
+<h1>Fase de Seleção</h1>
+
+<p>Selecione 8 filmes abaixo para participarem do campeonato. Em seguida, clique em Gerar Campeonato para prosseguir.</p>
+
+<p *ngIf="!filmes"><em>Loading...</em></p>
+
+<form class="container">
+  <div class="row">
+    <label class="col-md-3" *ngFor="let filme of filmes">
+      <div class="card">
+        <div class="card-body form-check">
+          <input class="form-check-input" type="checkbox">
+          <p class="card-text"><strong>{{ filme.titulo }}<br><small>{{ filme.ano }}</small></strong></p>
+        </div>
+      </div>
+    </label>
+  </div>
+</form>

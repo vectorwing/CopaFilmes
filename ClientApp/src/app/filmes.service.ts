@@ -1,9 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable() 
 export class FilmesService {
   filmes: Filme[];
-  resultado;
+  resultado: any;
+  lambda3URL = 'https://copadosfilmes.azurewebsites.net/api/filmes';
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
+
+  public getFilmes() {
+    return this.http.get<Filme[]>('https://copadosfilmes.azurewebsites.net/api/filmes');
+  }
+
+  public postSelectedFilmes(filmes: Filme[]) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'my-auth-token'
+      })
+    };
+    return this.http.post(this.baseUrl + 'api/CopaFilmes/TorneioCompleto', filmes, httpOptions);
+  }
 }
 
 interface Filme {

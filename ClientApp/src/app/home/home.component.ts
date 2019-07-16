@@ -13,8 +13,8 @@ export class HomeComponent {
   filmeForm: FormGroup;
   filmes: Filme[];
 
-  constructor(private http: HttpClient, private filmesService: FilmesService, private router: Router, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string) {
-    http.get<Filme[]>('https://copadosfilmes.azurewebsites.net/api/filmes').subscribe(
+  constructor(private filmesService: FilmesService, private router: Router, private fb: FormBuilder) {
+    filmesService.getFilmes().subscribe(
       result => {
         this.filmes = result;
         const formControls = this.filmes.map(control => new FormControl(false));
@@ -31,20 +31,12 @@ export class HomeComponent {
       .map((checked, index) => checked ? this.filmes[index] : null)
       .filter(value => value !== null);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': 'my-auth-token'
-      })
-    };
-
-    this.http.post(this.baseUrl + 'api/CopaFilmes/TorneioCompleto', selectedFilmes, httpOptions)
-      .subscribe(
-        result => {
-          this.filmesService.resultado = result;
-          this.router.navigate(['results']);
-        }
-      )
+    this.filmesService.postSelectedFilmes(selectedFilmes).subscribe(
+      result => {
+        this.filmesService.resultado = result;
+        this.router.navigate(['results']);
+      }
+    )
   }
 }
 

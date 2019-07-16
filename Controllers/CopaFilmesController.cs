@@ -31,6 +31,7 @@ namespace CopaFilmes.Controllers
 
             // Para decidir a final, basta dar um Sort Descending na Semifinal.
             result.PrimeiroLugar = CompararNotas(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1));
+            result.SegundoLugar = CompararNotas(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1), true);
 
             return result;
         }
@@ -55,11 +56,11 @@ namespace CopaFilmes.Controllers
             return result;
         }
 
-        private Filme CompararNotas(Filme filmeA, Filme filmeB)
+        private Filme CompararNotas(Filme filmeA, Filme filmeB, bool perdedor = false)
         {
             if (filmeA.Nota >= filmeB.Nota)
             {
-                return filmeA;
+                return perdedor ? filmeB : filmeA;
             } else {
                 return filmeB;
             }

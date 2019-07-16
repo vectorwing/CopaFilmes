@@ -1,5 +1,5 @@
 <h1 class="text-center mt-4">Copa dos Filmes</h1>
-<p class="text-center">Qual será o filme mais aclamado pelo público?</p>
+<h5 class="text-center">Fase de Seleção</h5>
 
 <hr>
 
@@ -14,15 +14,14 @@
 <p *ngIf="!filmes"><em>Loading...</em></p>
 
 <form class="container" *ngIf="filmes" [formGroup]="filmeForm" (ngSubmit)="submit()">
-  
+  <div class="clearfix mb-3">
+    <p class="float-left my-2">Selecionados 0 de 8 filmes</p>
+    <button class="btn btn-primary float-right" [disabled]="!filmeForm.valid">Gerar Campeonato</button>
+  </div>
   <div class="row">
-    <p class="col-md-6">Selecionados<br>0 de 8 filmes</p>
-    <div class="col-md-6">
-      <button class="btn btn-primary align-right">Gerar Campeonato</button>
-    </div>
     <label class="col-md-3 px-1" formArrayName="filmes" *ngFor="let filme of filmeForm.controls['filmes'].controls; let i = index">
-      <div class="card">
-        <div class="card-body form-check">
+      <div class="card py-1">
+        <div class="form-check pl-4">
           <input class="form-check-input" type="checkbox" [formControlName]="i">
           <p class="card-text"><small>{{ filmes[i].titulo }}<br>{{ filmes[i].ano }}</small></p>
         </div>

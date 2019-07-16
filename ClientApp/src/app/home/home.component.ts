@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FilmesService } from '../filmes.service';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +13,13 @@ export class HomeComponent {
   filmeForm: FormGroup;
   filmes: Filme[];
 
-  constructor(private http: HttpClient, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private http: HttpClient, private filmesService: FilmesService, private router: Router, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string) {
     http.get<Filme[]>('https://copadosfilmes.azurewebsites.net/api/filmes').subscribe(
       result => {
         this.filmes = result;
         const formControls = this.filmes.map(control => new FormControl(false));
         this.filmeForm = this.fb.group({
-          filmes: this.fb.array(formControls)
+          filmes: this.fb.array(formControls, exactSelectedCheckboxes())
         });
       },
       error => console.error(error)
@@ -38,9 +40,27 @@ export class HomeComponent {
 
     this.http.post(this.baseUrl + 'api/CopaFilmes/TorneioCompleto', selectedFilmes, httpOptions)
       .subscribe(
-        hero => console.log(hero)
+        result => {
+          this.filmesService.resultado = result;
+          this.router.navigate(['results']);
+        }
       )
   }
+}
+
+function exactSelectedCheckboxes(total = 8) {
+  const validator: ValidatorFn = (formArray: FormArray) => {
+    return countSelected(formArray) == total ? null : { required: true };
+  };
+
+  return validator;
+}
+
+function countSelected(formArray : FormArray) {
+  const totalSelected = formArray.controls
+      .map(control => control.value)
+      .reduce((prev, next) => next ? prev + next : prev, 0);
+  return totalSelected;
 }
 
 interface Filme {

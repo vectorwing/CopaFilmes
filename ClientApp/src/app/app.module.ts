@@ -7,12 +7,15 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
+import { ResultsComponent } from './results/results.component';
+import { FilmesService } from './filmes.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent
+    HomeComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -21,9 +24,10 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'results', component: ResultsComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [],
+  providers: [FilmesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

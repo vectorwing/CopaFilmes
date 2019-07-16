@@ -1,14 +1,32 @@
-<h1>Hello, world!</h1>
-<p>Welcome to your new single-page application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<h1 class="text-center mt-4">Copa dos Filmes</h1>
+<p class="text-center">Qual será o filme mais aclamado pelo público?</p>
+
+<hr>
+
+<p>Neste jogo, você deve selecionar 8 filmes da lista abaixo.
+  Os mesmos serão colocados em uma simulação de "copa do mundo", competindo entre si em um sistema de chaves.
+  Em cada partida, o filme com a maior nota vence, e avança para a próxima fase.</p>
+  
+<p>Após escolher os filmes, clique em <strong>Gerar Campeonato</strong> para ver qual filme será o vencedor!</p>
+
+<hr>
+
+<p *ngIf="!filmes"><em>Loading...</em></p>
+
+<form class="container" *ngIf="filmes" [formGroup]="filmeForm" (ngSubmit)="submit()">
+  
+  <div class="row">
+    <p class="col-md-6">Selecionados<br>0 de 8 filmes</p>
+    <div class="col-md-6">
+      <button class="btn btn-primary align-right">Gerar Campeonato</button>
+    </div>
+    <label class="col-md-3 px-1" formArrayName="filmes" *ngFor="let filme of filmeForm.controls['filmes'].controls; let i = index">
+      <div class="card">
+        <div class="card-body form-check">
+          <input class="form-check-input" type="checkbox" [formControlName]="i">
+          <p class="card-text"><small>{{ filmes[i].titulo }}<br>{{ filmes[i].ano }}</small></p>
+        </div>
+      </div>
+    </label>
+  </div>
+</form>

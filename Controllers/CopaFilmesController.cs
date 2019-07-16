@@ -30,7 +30,6 @@ namespace CopaFilmes.Controllers
             };
 
             // Para decidir a final, basta dar um Sort Descending na Semifinal.
-            result.Semifinal.Sort((x,y) => x.Nota.CompareTo(y.Nota));
             result.PrimeiroLugar = CompararNotas(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1));
 
             return result;

@@ -26,12 +26,15 @@ export class HomeComponent {
     );
   }
 
-  submit() {
+  getSelectedCheckboxes() {
     const selectedFilmes = this.filmeForm.value.filmes
       .map((checked, index) => checked ? this.filmes[index] : null)
       .filter(value => value !== null);
+    return selectedFilmes;
+  }
 
-    this.filmesService.postSelectedFilmes(selectedFilmes).subscribe(
+  submit() {
+    this.filmesService.postSelectedFilmes(this.getSelectedCheckboxes()).subscribe(
       result => {
         this.filmesService.resultado = result;
         this.router.navigate(['results']);

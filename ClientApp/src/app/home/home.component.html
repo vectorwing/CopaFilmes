@@ -15,7 +15,7 @@
 
 <form class="container" *ngIf="filmes" [formGroup]="filmeForm" (ngSubmit)="submit()">
   <div class="clearfix mb-3">
-    <p class="float-left my-2">Selecionados 0 de 8 filmes</p>
+    <p class="float-left my-2">Selecionados {{ getSelectedCheckboxes().length }} de 8 filmes</p>
     <button class="btn btn-primary float-right" [disabled]="!filmeForm.valid">Gerar Campeonato</button>
   </div>
   <div class="row">

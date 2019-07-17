@@ -60,7 +60,7 @@ namespace CopaFilmes.Controllers
         /// Retorna o vencedor da disputa entre os dois filmes, ou retorna o perdedor se retornarVencedor = false.
         /// Se as notas forem iguais, o desempate é feito pela ordem alfabética do título.
         /// </summary>
-        private Filme CompararNotas(Filme filmeA, Filme filmeB, bool retornarVencedor = true)
+        public static Filme CompararNotas(Filme filmeA, Filme filmeB, bool retornarVencedor = true)
         {
             // Caso as notas sejam iguais, o primeiro em ordem alfabética vence;
             if (filmeA.Nota == filmeB.Nota)

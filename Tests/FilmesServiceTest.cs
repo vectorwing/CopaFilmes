@@ -24,7 +24,7 @@ namespace CopaFilmes.Tests.UnitTests
             { Nota = 1 };
 
             // Act
-            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeA, actual);
@@ -39,7 +39,7 @@ namespace CopaFilmes.Tests.UnitTests
             { Nota = 2 };
 
             // Act
-            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeB, actual);
@@ -60,7 +60,7 @@ namespace CopaFilmes.Tests.UnitTests
             };
 
             // Act
-            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeA, actual);
@@ -81,7 +81,7 @@ namespace CopaFilmes.Tests.UnitTests
             };
 
             // Act
-            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeB, actual);

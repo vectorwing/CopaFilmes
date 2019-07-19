@@ -20,7 +20,7 @@ export class FilmesService {
         'Authorization': 'my-auth-token'
       })
     };
-    return this.http.post(this.baseUrl + 'api/CopaFilmes/TorneioCompleto', filmes, httpOptions);
+    return this.http.post(this.baseUrl + 'api/CopaFilmes/TorneioSimples', filmes, httpOptions);
   }
 }
 

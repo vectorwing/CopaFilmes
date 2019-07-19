@@ -17,10 +17,10 @@ namespace CopaFilmes.Controllers
         }
 
         [HttpPost("[action]")]
-        public List<Filme> TorneioSimples([FromBody] List<Filme> filmes)
+        public DisputaFilmes TorneioSimples([FromBody] List<Filme> filmes)
         {
             Torneio result = _FilmesService.GerarTorneio(filmes);
-            return result.Final;
+            return result.Resultado;
         }
 
         [HttpPost("[action]")]

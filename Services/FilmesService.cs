@@ -7,53 +7,61 @@ namespace CopaFilmes.Services
     public class FilmesService : IFilmesService
     {
         /// <summary>
-        /// Retorna o vencedor da disputa entre os dois filmes, ou retorna o perdedor se retornarVencedor = false.
-        /// Se as notas forem iguais, o desempate é feito pela ordem alfabética do título.
+        /// Compara a nota entre dois filmes, e retorna um objeto com o filme vencedor e o filme perdedor da disputa.
+        /// Em caso de empate, o título é comparado; o primeiro em ordem alfabética vence.
         /// </summary>
-        public Filme CompararFilmes(Filme filmeA, Filme filmeB, bool retornarVencedor = true)
+        public DisputaFilmes DisputarFilmes(Filme filmeA, Filme filmeB)
         {
-            // Caso as notas sejam iguais, o primeiro em ordem alfabética vence;
+            DisputaFilmes disputa = new DisputaFilmes();
             if (filmeA.Nota == filmeB.Nota)
             {
                 if (filmeA.Titulo.CompareTo(filmeB.Titulo) < 0)
                 {
-                    return retornarVencedor ? filmeA : filmeB;
+                    disputa.Vencedor = filmeA;
+                    disputa.Perdedor = filmeB;
+                } else {
+                    disputa.Vencedor = filmeB;
+                    disputa.Perdedor = filmeA;
                 }
-                return retornarVencedor ? filmeB : filmeA;
             }
-            // Senão, comparamos notas normalmente.
             else if (filmeA.Nota > filmeB.Nota)
             {
-                return retornarVencedor ? filmeA : filmeB;
+                disputa.Vencedor = filmeA;
+                disputa.Perdedor = filmeB;
+            } else {
+                disputa.Vencedor = filmeB;
+                disputa.Perdedor = filmeA;
             }
-            return retornarVencedor ? filmeB : filmeA;
+
+            return disputa;
         }
 
+        /// <summary>
+        /// Cria e retorna um Torneio entre 8 filmes listados, listando os vencedores de cada rodada.
+        /// </summary>
         public Torneio GerarTorneio(List<Filme> filmes)
         {
-            Torneio result = new Torneio();
+            Torneio torneio = new Torneio();
 
             filmes.Sort((x,y) => x.Titulo.CompareTo(y.Titulo));
-            result.Quartas = filmes;
+            torneio.Quartas = filmes;
 
-            result.Semifinal = new List<Filme>
+            torneio.Semifinal = new List<Filme>
             {
-                CompararFilmes(filmes.ElementAt(0), filmes.ElementAt(7)), // Bracket A: 1st vs 8th
-                CompararFilmes(filmes.ElementAt(1), filmes.ElementAt(6)), // Bracket B: 2nd vs 7th
-                CompararFilmes(filmes.ElementAt(2), filmes.ElementAt(5)), // Bracket C: 3rd vs 6th
-                CompararFilmes(filmes.ElementAt(3), filmes.ElementAt(4))  // Bracket D: 4th vs 5th
+                DisputarFilmes(filmes.ElementAt(0), filmes.ElementAt(7)).Vencedor, // Bracket A: 1st vs 8th
+                DisputarFilmes(filmes.ElementAt(1), filmes.ElementAt(6)).Vencedor, // Bracket B: 2nd vs 7th
+                DisputarFilmes(filmes.ElementAt(2), filmes.ElementAt(5)).Vencedor, // Bracket C: 3rd vs 6th
+                DisputarFilmes(filmes.ElementAt(3), filmes.ElementAt(4)).Vencedor  // Bracket D: 4th vs 5th
             };
-            result.Final = new List<Filme>
+            torneio.Final = new List<Filme>
             {
-                CompararFilmes(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1)), // Bracket A vs B
-                CompararFilmes(result.Semifinal.ElementAt(2), result.Semifinal.ElementAt(3)), // Bracket C vs D
+                DisputarFilmes(torneio.Semifinal.ElementAt(0), torneio.Semifinal.ElementAt(1)).Vencedor, // Bracket A vs B
+                DisputarFilmes(torneio.Semifinal.ElementAt(2), torneio.Semifinal.ElementAt(3)).Vencedor, // Bracket C vs D
             };
 
-            // Para decidir a final, basta dar um Sort Descending na Semifinal.
-            result.PrimeiroLugar = CompararFilmes(result.Final.ElementAt(0), result.Final.ElementAt(1));
-            result.SegundoLugar = CompararFilmes(result.Final.ElementAt(0), result.Final.ElementAt(1), false);
+            torneio.Resultado = DisputarFilmes(torneio.Final.ElementAt(0), torneio.Final.ElementAt(1));
 
-            return result;
+            return torneio;
         }
     }
 }

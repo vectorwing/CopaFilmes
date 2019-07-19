@@ -20,30 +20,22 @@ namespace CopaFilmes.Tests.UnitTests
         }
 
         [Fact]
-        public void GerarTorneio_FinalFilmeAVsFilmeC_RetornaFilmeAPrimeiroLugar()
+        public void GerarTorneio_FinalFilmeAvsFilmeC_RetornaFilmeAVencedorFilmeCPerdedor()
         {
             // Quartas: AxH, BxG, CxF, DxE
             // Semifinais: AxB, CxD
             // Finais: AxC
             // Campeão: A
-            Filme actual = _FilmesService.GerarTorneio(fixture.Filmes).PrimeiroLugar;
+            DisputaFilmes expected = new DisputaFilmes();
+            expected.Vencedor = fixture.Filmes.Find(x => x.Titulo == "A");
+            expected.Perdedor = fixture.Filmes.Find(x => x.Titulo == "C");
+            DisputaFilmes actual = _FilmesService.GerarTorneio(fixture.Filmes).Resultado;
 
-            Assert.Equal(fixture.Filmes.ElementAt(0), actual);
-        }
-        [Fact]
-        public void GerarTorneio_FinalFilmeAVsFilmeC_RetornaFilmeCSegundoLugar()
-        {
-            // Quartas: AxH, BxG, CxF, DxE
-            // Semifinais: AxB, CxD
-            // Finais: AxC
-            // Vice-campeão: C
-            Filme actual = _FilmesService.GerarTorneio(fixture.Filmes).SegundoLugar;
-
-            Assert.Equal(fixture.Filmes.ElementAt(2), actual);
+            Assert.Equal(expected.Vencedor, actual.Vencedor);
         }
 
         [Fact]
-        public void CompararNotas_FilmeANotaMaior_RetornaFilmeA()
+        public void DisputarFilmes_FilmeANotaMaior_RetornaFilmeA()
         {
             // Arrange
             Filme filmeA = new Filme()
@@ -52,13 +44,16 @@ namespace CopaFilmes.Tests.UnitTests
             { Nota = 1 };
 
             // Act
-            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
+            DisputaFilmes expected = new DisputaFilmes();
+            expected.Vencedor = filmeA;
+            expected.Perdedor = filmeB;
+            DisputaFilmes actual = _FilmesService.DisputarFilmes(filmeA, filmeB);
 
             // Assert
-            Assert.Equal(filmeA, actual);
+            Assert.Equal(expected.Vencedor, actual.Vencedor);
         }
         [Fact]
-        public void CompararNotas_FilmeBNotaMaior_RetornaFilmeB()
+        public void DisputarFilmes_FilmeBNotaMaior_RetornaFilmeB()
         {
             // Arrange
             Filme filmeA = new Filme()
@@ -67,13 +62,16 @@ namespace CopaFilmes.Tests.UnitTests
             { Nota = 2 };
 
             // Act
-            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
+            DisputaFilmes expected = new DisputaFilmes();
+            expected.Vencedor = filmeB;
+            expected.Perdedor = filmeA;
+            DisputaFilmes actual = _FilmesService.DisputarFilmes(filmeA, filmeB);
 
             // Assert
-            Assert.Equal(filmeB, actual);
+            Assert.Equal(expected.Vencedor, actual.Vencedor);
         }
         [Fact]
-        public void CompararNotas_NotasIguaisFilmeATituloAntes_RetornaFilmeA()
+        public void DisputarFilmes_NotasIguaisFilmeATituloAntes_RetornaFilmeA()
         {
             // Arrange
             Filme filmeA = new Filme()
@@ -88,13 +86,16 @@ namespace CopaFilmes.Tests.UnitTests
             };
 
             // Act
-            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
+            DisputaFilmes expected = new DisputaFilmes();
+            expected.Vencedor = filmeA;
+            expected.Perdedor = filmeB;
+            DisputaFilmes actual = _FilmesService.DisputarFilmes(filmeA, filmeB);
 
             // Assert
-            Assert.Equal(filmeA, actual);
+            Assert.Equal(expected.Vencedor, actual.Vencedor);
         }
         [Fact]
-        public void CompararNotas_NotasIguaisFilmeBTituloAntes_RetornaFilmeB()
+        public void DisputarFilmes_NotasIguaisFilmeBTituloAntes_RetornaFilmeB()
         {
             // Arrange
             Filme filmeA = new Filme()
@@ -109,10 +110,13 @@ namespace CopaFilmes.Tests.UnitTests
             };
 
             // Act
-            Filme actual = _FilmesService.CompararFilmes(filmeA, filmeB);
+            DisputaFilmes expected = new DisputaFilmes();
+            expected.Vencedor = filmeB;
+            expected.Perdedor = filmeA;
+            DisputaFilmes actual = _FilmesService.DisputarFilmes(filmeA, filmeB);
 
             // Assert
-            Assert.Equal(filmeB, actual);
+            Assert.Equal(expected.Vencedor, actual.Vencedor);
         }
     }
 

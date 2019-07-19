@@ -5,7 +5,7 @@ namespace CopaFilmes.Services
 {
     public interface IFilmesService
     {
-        Filme CompararFilmes(Filme filmeA, Filme filmeB, bool retornarVencedor = true);
+        DisputaFilmes DisputarFilmes(Filme filmeA, Filme filmeB);
         
         Torneio GerarTorneio(List<Filme> filmes);
     }

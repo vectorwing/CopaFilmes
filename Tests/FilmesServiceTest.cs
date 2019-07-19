@@ -1,22 +1,30 @@
 using Xunit;
-using CopaFilmes.Controllers;
+using CopaFilmes.Services;
+using CopaFilmes.Models;
 
 namespace CopaFilmes.Tests.UnitTests
 {
 
-    public class CopaFilmesControllerTest
+    public class FilmesServiceTest
     {
+        private readonly IFilmesService _FilmesService;
+
+        public FilmesServiceTest(IFilmesService FilmesService)
+        {
+            _FilmesService = FilmesService;
+        }
+
         [Fact]
         public void CompararNotas_FilmeANotaMaior_RetornaFilmeA()
         {
             // Arrange
-            CopaFilmesController.Filme filmeA = new CopaFilmesController.Filme()
+            Filme filmeA = new Filme()
             { Nota = 2 };
-            CopaFilmesController.Filme filmeB = new CopaFilmesController.Filme()
+            Filme filmeB = new Filme()
             { Nota = 1 };
 
             // Act
-            CopaFilmesController.Filme actual = CopaFilmesController.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeA, actual);
@@ -25,13 +33,13 @@ namespace CopaFilmes.Tests.UnitTests
         public void CompararNotas_FilmeBNotaMaior_RetornaFilmeB()
         {
             // Arrange
-            CopaFilmesController.Filme filmeA = new CopaFilmesController.Filme()
+            Filme filmeA = new Filme()
             { Nota = 1 };
-            CopaFilmesController.Filme filmeB = new CopaFilmesController.Filme()
+            Filme filmeB = new Filme()
             { Nota = 2 };
 
             // Act
-            CopaFilmesController.Filme actual = CopaFilmesController.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeB, actual);
@@ -40,19 +48,19 @@ namespace CopaFilmes.Tests.UnitTests
         public void CompararNotas_NotasIguaisFilmeATituloAntes_RetornaFilmeA()
         {
             // Arrange
-            CopaFilmesController.Filme filmeA = new CopaFilmesController.Filme()
+            Filme filmeA = new Filme()
             {
                 Titulo = "A",
                 Nota = 1
             };
-            CopaFilmesController.Filme filmeB = new CopaFilmesController.Filme()
+            Filme filmeB = new Filme()
             {
                 Titulo = "B",
                 Nota = 1
             };
 
             // Act
-            CopaFilmesController.Filme actual = CopaFilmesController.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeA, actual);
@@ -61,19 +69,19 @@ namespace CopaFilmes.Tests.UnitTests
         public void CompararNotas_NotasIguaisFilmeBTituloAntes_RetornaFilmeB()
         {
             // Arrange
-            CopaFilmesController.Filme filmeA = new CopaFilmesController.Filme()
+            Filme filmeA = new Filme()
             {
                 Titulo = "B",
                 Nota = 1
             };
-            CopaFilmesController.Filme filmeB = new CopaFilmesController.Filme()
+            Filme filmeB = new Filme()
             {
                 Titulo = "A",
                 Nota = 1
             };
 
             // Act
-            CopaFilmesController.Filme actual = CopaFilmesController.CompararNotas(filmeA, filmeB);
+            Filme actual = _FilmesService.CompararNotas(filmeA, filmeB);
 
             // Assert
             Assert.Equal(filmeB, actual);

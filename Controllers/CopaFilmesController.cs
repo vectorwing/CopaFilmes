@@ -1,14 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CopaFilmes.Models;
+using CopaFilmes.Services;
 
 namespace CopaFilmes.Controllers
 {
     [Route("api/[controller]")]
     public class CopaFilmesController : Controller
     {
+        private readonly IFilmesService _FilmesService;
+
+        public CopaFilmesController(IFilmesService FilmesService)
+        {
+            _FilmesService = FilmesService;
+        }
+
         public Torneio GerarTorneio(List<Filme> filmes)
         {
             Torneio result = new Torneio();
@@ -18,20 +25,20 @@ namespace CopaFilmes.Controllers
 
             result.Semifinal = new List<Filme>
             {
-                CompararNotas(filmes.ElementAt(0), filmes.ElementAt(7)), // Bracket A: 1st vs 8th
-                CompararNotas(filmes.ElementAt(1), filmes.ElementAt(6)), // Bracket B: 2nd vs 7th
-                CompararNotas(filmes.ElementAt(2), filmes.ElementAt(5)), // Bracket C: 3rd vs 6th
-                CompararNotas(filmes.ElementAt(3), filmes.ElementAt(4))  // Bracket D: 4th vs 5th
+                _FilmesService.CompararNotas(filmes.ElementAt(0), filmes.ElementAt(7)), // Bracket A: 1st vs 8th
+                _FilmesService.CompararNotas(filmes.ElementAt(1), filmes.ElementAt(6)), // Bracket B: 2nd vs 7th
+                _FilmesService.CompararNotas(filmes.ElementAt(2), filmes.ElementAt(5)), // Bracket C: 3rd vs 6th
+                _FilmesService.CompararNotas(filmes.ElementAt(3), filmes.ElementAt(4))  // Bracket D: 4th vs 5th
             };
             result.Final = new List<Filme>
             {
-                CompararNotas(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1)), // Bracket A vs B
-                CompararNotas(result.Semifinal.ElementAt(2), result.Semifinal.ElementAt(3)), // Bracket C vs D
+                _FilmesService.CompararNotas(result.Semifinal.ElementAt(0), result.Semifinal.ElementAt(1)), // Bracket A vs B
+                _FilmesService.CompararNotas(result.Semifinal.ElementAt(2), result.Semifinal.ElementAt(3)), // Bracket C vs D
             };
 
             // Para decidir a final, basta dar um Sort Descending na Semifinal.
-            result.PrimeiroLugar = CompararNotas(result.Final.ElementAt(0), result.Final.ElementAt(1));
-            result.SegundoLugar = CompararNotas(result.Final.ElementAt(0), result.Final.ElementAt(1), false);
+            result.PrimeiroLugar = _FilmesService.CompararNotas(result.Final.ElementAt(0), result.Final.ElementAt(1));
+            result.SegundoLugar = _FilmesService.CompararNotas(result.Final.ElementAt(0), result.Final.ElementAt(1), false);
 
             return result;
         }
@@ -77,23 +84,6 @@ namespace CopaFilmes.Controllers
                 return retornarVencedor ? filmeA : filmeB;
             }
             return retornarVencedor ? filmeB : filmeA;
-        }
-
-        public class Filme
-        {
-            public string Id { get; set; }
-            public string Titulo { get; set; }
-            public int Ano { get; set; }
-            public double Nota { get; set; }
-        }
-
-        public class Torneio
-        {
-            public List<Filme> Quartas { get; set; }
-            public List<Filme> Semifinal { get; set; }
-            public List<Filme> Final { get; set; }
-            public Filme PrimeiroLugar { get; set; }
-            public Filme SegundoLugar { get; set; }
         }
     }
 }

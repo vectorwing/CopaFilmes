@@ -10,7 +10,7 @@ export class FilmesService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
   public getFilmes() {
-    return this.http.get<Filme[]>('https://copadosfilmes.azurewebsites.net/api/filmes');
+    return this.http.get<Filme[]>(this.lambda3URL);
   }
 
   public postSelectedFilmes(filmes: Filme[]) {

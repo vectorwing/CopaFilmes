@@ -15,15 +15,13 @@
 
 <form class="container" *ngIf="filmes" [formGroup]="filmeForm" (ngSubmit)="submit()">
   <div class="clearfix mb-3">
-    <p class="alert py-1 float-left my-2"
-      [ngClass]="{'alert-success': getSelectedCheckboxes().length == 8}"
-      *ngIf="getSelectedCheckboxes().length <= 8">
+    <p class="alert float-left my-2 py-1" [ngClass]="{'alert-success': getSelectedCheckboxes().length == 8}" *ngIf="getSelectedCheckboxes().length <= 8">
       Selecionados {{ getSelectedCheckboxes().length }} de 8 filmes
     </p>
-    <p class="alert alert-danger py-1 float-left my-2" *ngIf="getSelectedCheckboxes().length > 8">
+    <p class="alert alert-danger float-left my-2 py-1" *ngIf="getSelectedCheckboxes().length > 8">
       Selecione apenas 8 filmes!
     </p>
-    <button class="btn btn-primary my-1 float-right" [disabled]="!filmeForm.valid">Gerar Campeonato</button>
+    <button class="btn btn-primary float-right my-1" [disabled]="!filmeForm.valid">Gerar Campeonato</button>
   </div>
   <div class="row">
     <label class="col-md-3 px-1" formArrayName="filmes" *ngFor="let filme of filmeForm.controls['filmes'].controls; let i = index">
